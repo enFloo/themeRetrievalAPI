@@ -20,13 +20,18 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_
 
 @app.route('/', defaults={'path': ''})
 def index(path):
+    return send_from_directory(app.static_folder,'index.html')
+
+api.add_resource(HelloApiHandler, '/home')
+
+@app.route('/home')
+def home():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     s = "SELECT * FROM Theme"
     cur.execute(s)
     list_products = cur.fetchall()
-    return send_from_directory(app.static_folder, 'index.html', list_products = list_products)
+    return render_template('home.html', list_products = list_products)
 
-api.add_resource(HelloApiHandler, '/flask/hello')
 
 @app.route('/add_product', methods=['POST'])
 def add_product():
