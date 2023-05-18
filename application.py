@@ -22,7 +22,7 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_
 def index(path):
     return send_from_directory(app.static_folder,'index.html')
 
-api.add_resource(HelloApiHandler, '/home')
+api.add_resource(HelloApiHandler, '/flask/hello')
 
 @app.route('/home')
 def home():
