@@ -1,9 +1,12 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Form from './components/Form.js';
-import Table from './components/Table.js';
-import Navbar from './components/Navbar.js';
+import React, { useEffect, useState } from 'react';
+import Form from './components/Form.jsx';
+import Table from './components/Table.jsx';
+import Navbar from './components/Navbar.jsx';
+import { Routes, Route } from 'react-router-dom';
+
+
 
 function App() {
   const [listProducts, setListProducts] = useState([]);
@@ -18,10 +21,6 @@ function App() {
     });
   }, []);
 
-  const handleAddProduct = (newProduct) =>{
-    setListProducts([...listProducts, newProduct])
-  };
-
   return(
     <>
       <div className="App">
@@ -29,7 +28,7 @@ function App() {
         <h1 align='center'>Products</h1>
         <div className='content'>
           <div className='formContained'>
-            <Form onAddProduct={handleAddProduct}/>
+            <Form />
           </div>
           <div className='tableContainer'>
             <Table listProducts={listProducts} />
@@ -40,5 +39,6 @@ function App() {
     </>
   ) 
 }
+
 
 export default App;

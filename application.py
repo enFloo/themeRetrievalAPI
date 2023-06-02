@@ -12,7 +12,7 @@ api = Api(app)
 app.secret_key = 'APPSECRET'
 
 DB_HOST = "localhost"
-DB_NAME = "themes"
+DB_NAME = "mydb"
 DB_USER = "floho"
 DB_PASS = "postgres"
 
@@ -37,14 +37,14 @@ def home():
 def add_product():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
-        name = request.form['name']
-        thumbnailURL = request.form['thumbnailURL']
-        sourceURL = request.form['sourceURL']
-        category = request.form['category']
+        name = request.form.get('name')
+        thumbnailURL = request.form.get('thumbnailURL')
+        sourceURL = request.form.get('sourceURL')
+        category = request.form.get('category')
         cur.execute("INSERT INTO Theme (name, thumbnailURL, sourceURL, category) VALUES (%s,%s,%s,%s)", (name, thumbnailURL, sourceURL, category))
         conn.commit()
         flash('Product Added Successfully')
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
 @app.route('/edit/<id>', methods = ['POST', 'GET'])
 def get_product(id):
@@ -74,7 +74,7 @@ def update_product(id):
         """, (name, thumbnailurl, sourceurl, category, id))
         flash('Product Updated Successfully')
         conn.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
 @app.route('/delete/<string:id>', methods = ['POST', 'GET'])
 def delete_product(id):
@@ -82,7 +82,7 @@ def delete_product(id):
     cur.execute('DELETE FROM Theme WHERE id = {0}'.format(id))
     conn.commit()
     flash('Product Removed Successfully')
-    return redirect(url_for('index'))
+    return redirect(url_for('home'))
 
 
 @app.route('/allproducts')

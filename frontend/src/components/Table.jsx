@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableContainer, TableHead, TableRow, Paper} from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material';
@@ -91,7 +91,7 @@ function TablePaginationActions(props) {
 
 
 
-export default function DataTable({ listProducts }){
+export default function DataTable({listProducts}){
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -132,8 +132,8 @@ export default function DataTable({ listProducts }){
               <StyledTableCell>{row[2]}</StyledTableCell>
               <StyledTableCell>{row[3]}</StyledTableCell>
               <StyledTableCell>{row[4]}</StyledTableCell>
-              <StyledTableCell className='actionContainer'><a href={`/edit/${row[0]}`} className="linkButton editButton">edit</a>
-                  <a href={`/delete/${row[0]}`} className="linkButton deleteButton">delete</a></StyledTableCell>
+              <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton">edit</button>
+                  <button className="linkButton deleteButton">delete</button></StyledTableCell>
             </StyledTableRow>
           ))}
           </TableBody>

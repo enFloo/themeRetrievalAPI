@@ -42,7 +42,7 @@
 .submitButton{
   display: flex;
   justify-content: center;
-  margin: 1em 0em 0em 3.5em;
+  margin: 1em 0em 0em 0em;
 }
 
 .actionContainer{
