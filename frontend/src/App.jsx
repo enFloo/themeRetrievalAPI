@@ -31,7 +31,7 @@ function App() {
             <Form />
           </div>
           <div className='tableContainer'>
-            <Table listProducts={listProducts} />
+            <Table listProducts={listProducts} setListProducts={setListProducts} />
           </div>
         </div>
       </div>

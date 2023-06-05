@@ -91,7 +91,7 @@ function TablePaginationActions(props) {
 
 
 
-export default function DataTable({listProducts}){
+export default function DataTable({listProducts, setListProducts}){
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -108,6 +108,8 @@ export default function DataTable({listProducts}){
     setPage(0);
   };
 
+  const [updateState, setUpdateState] = useState(-1)
+
   return(
     <div className='col-md-8'>
       <TableContainer component={Paper}>
@@ -122,18 +124,19 @@ export default function DataTable({listProducts}){
               <StyledTableCell></StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody> 
           {listProducts.map((row) => (
+            updateState === row[0] ? <Edit row={row} listProducts={listProducts} handleEdit={handleEdit}/> :
             <StyledTableRow key={row[0]}>
               <StyledTableCell component="th" scope="row">
-                {row[0]}
+                {row[0]} 
               </StyledTableCell>
               <StyledTableCell>{row[1]}</StyledTableCell>
               <StyledTableCell>{row[2]}</StyledTableCell>
               <StyledTableCell>{row[3]}</StyledTableCell>
               <StyledTableCell>{row[4]}</StyledTableCell>
-              <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton">edit</button>
-                  <button className="linkButton deleteButton">delete</button></StyledTableCell>
+              <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button>
+                  <button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button></StyledTableCell>
             </StyledTableRow>
           ))}
           </TableBody>
@@ -161,5 +164,30 @@ export default function DataTable({listProducts}){
       </TableContainer>
     </div>
     
+  )
+
+  function handleEdit(id){
+    setUpdateState(id)
+  }
+  
+  function handleDelete(id){
+    setUpdateState(id)
+  }
+  
+}
+
+
+function Edit({row, listProducts, handleEdit}){
+  return(
+    <StyledTableRow key={row[0]}>
+      <StyledTableCell component="th" scope="row">
+        {row[0]}
+      </StyledTableCell>
+      <StyledTableCell><input  type='text' name='name' defaultValue={row[1]} /></StyledTableCell>
+      <StyledTableCell><input  type='text' name='thumbnailURL' defaultValue={row[2]} /></StyledTableCell>
+      <StyledTableCell><input  type='text' name='sourceURL' defaultValue={row[3]} /></StyledTableCell>
+      <StyledTableCell><input  type='text' name='category' defaultValue={row[4]} /></StyledTableCell>
+      <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>Update</button></StyledTableCell>
+    </StyledTableRow>
   )
 }

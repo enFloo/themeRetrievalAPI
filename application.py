@@ -59,10 +59,10 @@ def get_product(id):
 @app.route('/update/<id>', methods=['POST'])
 def update_product(id):
     if request.method == 'POST':
-        name = request.form['name']
-        thumbnailurl = request.form['thumbnailurl']
-        sourceurl = request.form['sourceurl']
-        category = request.form['category']
+        name = request.form.get['name']
+        thumbnailurl = request.form.get['thumbnailurl']
+        sourceurl = request.form.get['sourceurl']
+        category = request.form.get['category']
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute("""
         UPDATE Theme
