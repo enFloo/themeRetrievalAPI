@@ -127,7 +127,7 @@ export default function DataTable({listProducts, setListProducts}){
           </TableHead>
           <TableBody> 
           {listProducts.map((row) => (
-            updateState === row[0] ? <Edit row={row} listProducts={listProducts} handleEdit={handleEdit}/> :
+            updateState === row[0] ? <Edit row={row} listProducts={listProducts} handleEdit={handleEdit} setListProducts={setListProducts}/> :
             <StyledTableRow key={row[0]}>
               <StyledTableCell component="th" scope="row">
                 {row[0]} 
@@ -217,13 +217,16 @@ function Edit({row, listProducts, setListProducts, setUpdateState, handleEdit, h
     })
     .then((response) =>{
       console.log(response.data);
-      
+      setListProducts((prevListProducts) =>
+        prevListProducts.map((product) =>
+          product[0] === row[0] ? [row[0], name, thumbnailurl, sourceurl, category] : product
+        )
+      );
+      setIsEditing(false);
     })
     .catch((error) =>{
       console.error(error);
     });
-
-    setIsEditing(false);
   };
 
   const handleEditClick = () => {
