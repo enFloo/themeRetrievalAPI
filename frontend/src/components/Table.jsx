@@ -225,6 +225,10 @@ function Edit({row, listProducts, setListProducts, setUpdateState, handleEdit, h
 
     setIsEditing(false);
   };
+
+  const handleEditClick = () => {
+    setIsEditing(true); 
+  };
     
 
   return(
@@ -238,7 +242,7 @@ function Edit({row, listProducts, setListProducts, setUpdateState, handleEdit, h
           <StyledTableCell>{row[2]}</StyledTableCell>
           <StyledTableCell>{row[3]}</StyledTableCell>
           <StyledTableCell>{row[4]}</StyledTableCell>
-          <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button>
+          <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEditClick(row[0]))}>edit</button><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button>
           </StyledTableCell>
         </>
       ) : (
