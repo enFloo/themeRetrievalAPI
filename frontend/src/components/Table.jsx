@@ -136,8 +136,8 @@ export default function DataTable({listProducts, setListProducts}){
               <StyledTableCell>{row[2]}</StyledTableCell>
               <StyledTableCell>{row[3]}</StyledTableCell>
               <StyledTableCell>{row[4]}</StyledTableCell>
-              <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button>
-                  <button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button></StyledTableCell>
+              <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
           </TableBody>
@@ -177,14 +177,20 @@ export default function DataTable({listProducts, setListProducts}){
   
 }
 
+function Delete(handleDelete){
 
-function Edit({row, listProducts, handleEdit}){
+}
+
+
+function Edit({row, listProducts, setListProducts, setUpdateState, handleEdit, handleDelete}){
   const [formData, setFromData] = useState({
     name: row[1],
     thumbnailurl: row[2],
     sourceurl: row[3],
     category: row[4],
   });
+
+  const [isEditing, setIsEditing] = useState(true);
 
   const handleUpdateChange = (event) => {
     const { name, value } = event.target;
@@ -197,8 +203,6 @@ function Edit({row, listProducts, handleEdit}){
 
   const handleSubmit = (event) =>{
 
-   
-
     const { name, thumbnailurl, sourceurl, category } = formData;
     const updateProduct ={
       name,
@@ -206,52 +210,68 @@ function Edit({row, listProducts, handleEdit}){
       sourceurl,
       category,
     };
-    console.log(updateProduct)
     axios.post(`http://127.0.0.1:5000/update/${row[0]}`, updateProduct,{
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
     .then((response) =>{
-      console.log(response.data);      
-      })
+      console.log(response.data);
+      
+    })
     .catch((error) =>{
       console.error(error);
     });
+
+    setIsEditing(false);
   };
     
-  
 
   return(
     <StyledTableRow key={row[0]}>
       <StyledTableCell component="th" scope="row">
         {row[0]}
       </StyledTableCell>
-      <StyledTableCell><input  
-      type='text' 
-      name='name' 
-      defaultValue={row[1]}
-      onChange={handleUpdateChange}
-       /></StyledTableCell>
-      <StyledTableCell><input  
-      type='text' 
-      name='thumbnailurl' 
-      defaultValue={row[2]}
-      onChange={handleUpdateChange} 
-      /></StyledTableCell>
-      <StyledTableCell><input  
-      type='text' 
-      name='sourceurl' 
-      defaultValue={row[3]}
-      onChange={handleUpdateChange}
-      /></StyledTableCell>
-      <StyledTableCell><input  
-      type='text' 
-      name='category' 
-      defaultValue={row[4]} 
-      onChange={handleUpdateChange}
-      /></StyledTableCell>
-      <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleSubmit(row[0]))}>Update</button></StyledTableCell>
+      {!isEditing ? (
+        <>
+          <StyledTableCell>{row[1]}</StyledTableCell>
+          <StyledTableCell>{row[2]}</StyledTableCell>
+          <StyledTableCell>{row[3]}</StyledTableCell>
+          <StyledTableCell>{row[4]}</StyledTableCell>
+          <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button>
+          </StyledTableCell>
+        </>
+      ) : (
+        <>
+          <StyledTableCell><input  
+            type='text' 
+            name='name' 
+            defaultValue={row[1]}
+            onChange={handleUpdateChange}
+            /></StyledTableCell>
+            <StyledTableCell><input  
+            type='text' 
+            name='thumbnailurl' 
+            defaultValue={row[2]}
+            onChange={handleUpdateChange} 
+            /></StyledTableCell>
+            <StyledTableCell><input  
+            type='text' 
+            name='sourceurl' 
+            defaultValue={row[3]}
+            onChange={handleUpdateChange}
+            /></StyledTableCell>
+            <StyledTableCell><input  
+            type='text' 
+            name='category' 
+            defaultValue={row[4]} 
+            onChange={handleUpdateChange}
+            /></StyledTableCell>
+            <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleSubmit(row[0]))}>Update</button>
+          </StyledTableCell>
+        </>
+      )}
+      
     </StyledTableRow>
   )
 }
