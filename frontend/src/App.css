@@ -46,25 +46,49 @@
 }
 
 .actionContainer{
-  display: grid;
-  grid-template-columns: repeat(2, auto); /* Adjust the number of columns and spacing as needed */
-  gap: 8px;
+  display: flex;
+}
+
+.editContainer button:hover{
+  background-color: #585d61;
+  cursor: pointer;
+  
+}
+
+.deleteContainer button:hover{
+  background-color: #ad2331;
+  cursor: pointer;
+}
+
+.StyledTableCell:hover{
+  background-color: #585d61;
+}
+
+tbody tr:hover {
+  background-color: #959ea6;
+  color: white;
+  
 }
 
 .linkButton{
   text-decoration: none;
-  margin-right: 8px;
+  
   color: white;
-  padding: 5px 10px;
+
   border-radius: 2px;
 }
 
 .editButton{
   background-color: #6D757D;
+  padding: 5px 10px;
+  margin-bottom: 3px;
+  font-size: 12px;
 }
 
 .deleteButton{
   background-color: #DC3545;
+  padding: 5px 4px;
+  font-size: 12px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

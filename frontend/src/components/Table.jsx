@@ -28,11 +28,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: '#F5F5F5',
   },
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
+  },
+  '$:hover':{
+    backgroundColor: '#f5f5f5',
   },
 }));
 
@@ -95,6 +98,7 @@ function TablePaginationActions(props) {
 export default function DataTable({listProducts, setListProducts}){
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const paginatedData = listProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -136,7 +140,7 @@ export default function DataTable({listProducts, setListProducts}){
               <StyledTableCell>{row[2]}</StyledTableCell>
               <StyledTableCell>{row[3]}</StyledTableCell>
               <StyledTableCell>{row[4]}</StyledTableCell>
-              <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button>
+              <StyledTableCell className='actionContainer'><div className='editContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEdit(row[0]))}>edit</button></div><div className='deleteContainer'><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button></div>
               </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -172,13 +176,18 @@ export default function DataTable({listProducts, setListProducts}){
   }
   
   function handleDelete(id){
-    setUpdateState(id)
+    axios.post(`http://127.0.0.1:5000/delete/${id}`)
+    .then((response) =>{
+      console.log(response.data);
+      setListProducts((prevListProducts) =>
+        prevListProducts.filter((product) => product[0] !== id)
+      );
+    })
+    .catch((error) =>{
+      console.error(error);
+    })
   }
   
-}
-
-function Delete(handleDelete){
-
 }
 
 
@@ -245,7 +254,7 @@ function Edit({row, listProducts, setListProducts, setUpdateState, handleEdit, h
           <StyledTableCell>{row[2]}</StyledTableCell>
           <StyledTableCell>{row[3]}</StyledTableCell>
           <StyledTableCell>{row[4]}</StyledTableCell>
-          <StyledTableCell className='actionContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEditClick(row[0]))}>edit</button><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button>
+          <StyledTableCell><div className='editContainer'><button type='button' className="linkButton editButton" onClick={(() => handleEditClick(row[0]))}>edit</button></div><div className='deleteContainer'><button className="linkButton deleteButton" onClick={(() => handleDelete(row[0]))}>delete</button></div>
           </StyledTableCell>
         </>
       ) : (
@@ -278,7 +287,6 @@ function Edit({row, listProducts, setListProducts, setUpdateState, handleEdit, h
           </StyledTableCell>
         </>
       )}
-      
     </StyledTableRow>
   )
 }
