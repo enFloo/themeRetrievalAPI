@@ -97,7 +97,7 @@ function TablePaginationActions(props) {
 
 export default function DataTable({listProducts, setListProducts}){
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
   const paginatedData = listProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -130,7 +130,7 @@ export default function DataTable({listProducts, setListProducts}){
             </TableRow>
           </TableHead>
           <TableBody> 
-          {listProducts.map((row) => (
+          {paginatedData.map((row) => (
             updateState === row[0] ? <Edit row={row} listProducts={listProducts} handleEdit={handleEdit} setListProducts={setListProducts}/> :
             <StyledTableRow key={row[0]}>
               <StyledTableCell component="th" scope="row">
@@ -148,7 +148,7 @@ export default function DataTable({listProducts, setListProducts}){
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[3, 5, 10, { label: 'All', value: -1 }]}
                 colSpan={3}
                 count={listProducts.length}
                 rowsPerPage={rowsPerPage}
@@ -176,16 +176,22 @@ export default function DataTable({listProducts, setListProducts}){
   }
   
   function handleDelete(id){
-    axios.post(`http://127.0.0.1:5000/delete/${id}`)
-    .then((response) =>{
-      console.log(response.data);
-      setListProducts((prevListProducts) =>
-        prevListProducts.filter((product) => product[0] !== id)
-      );
-    })
-    .catch((error) =>{
-      console.error(error);
-    })
+    const confirmDelete = window.confirm('Are you sure you want to delete this item?');
+
+    if(confirmDelete){
+      axios.post(`http://127.0.0.1:5000/delete/${id}`)
+      .then((response) =>{
+        console.log(response.data);
+        setListProducts((prevListProducts) =>
+          prevListProducts.filter((product) => product[0] !== id)
+          
+        );
+      })
+      .catch((error) =>{
+        console.error(error);
+      })
+    }
+    
   }
   
 }

@@ -28,7 +28,7 @@ function App() {
         <h1 align='center'>Products</h1>
         <div className='content'>
           <div className='formContained'>
-            <Form />
+            <Form  setListProducts={setListProducts}/>
           </div>
           <div className='tableContainer'>
             <Table listProducts={listProducts} setListProducts={setListProducts} />

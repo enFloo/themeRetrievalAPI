@@ -37,14 +37,20 @@ def home():
 def add_product():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
-        name = request.form.get('name')
-        thumbnailURL = request.form.get('thumbnailURL')
-        sourceURL = request.form.get('sourceURL')
-        category = request.form.get('category')
-        cur.execute("INSERT INTO Theme (name, thumbnailURL, sourceURL, category) VALUES (%s,%s,%s,%s)", (name, thumbnailURL, sourceURL, category))
-        conn.commit()
-        flash('Product Added Successfully')
-        return redirect(url_for('home'))
+        try:
+            name = request.form.get('name')
+            thumbnailurl = request.form.get('thumbnailurl')
+            sourceurl = request.form.get('sourceurl')
+            category = request.form.get('category')
+            cur.execute("INSERT INTO Theme (name, thumbnailurl, sourceurl, category) VALUES (%s,%s,%s,%s) RETURNING *", (name, thumbnailurl, sourceurl, category))
+            conn.commit()
+            new_product = cur.fetchone()
+            response = {'message': 'Product Added Successfully', 'product': dict(new_product)}
+            return jsonify(response)
+        except psycopg2.Error as e:
+            response = {'error': 'Failed to add product'}
+            return jsonify(response), 500
+
 
 @app.route('/edit/<id>', methods = ['POST', 'GET'])
 def get_product(id):

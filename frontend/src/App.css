@@ -23,6 +23,7 @@
 
 .tableContainer {
   margin-right: 2em;
+  margin-bottom: 5em;
 
 }
 
@@ -58,10 +59,6 @@
 .deleteContainer button:hover{
   background-color: #ad2331;
   cursor: pointer;
-}
-
-.StyledTableCell:hover{
-  background-color: #585d61;
 }
 
 tbody tr:hover {

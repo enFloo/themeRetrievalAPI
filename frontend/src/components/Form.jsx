@@ -12,8 +12,8 @@ export default function Form({ listProducts, setListProducts}){
 
   const [formData, setFormData] = useState({
     name: '',
-    thumbnailURL: '',
-    sourceURL: '',
+    thumbnailurl: '',
+    sourceurl: '',
     category: '',
   });
 
@@ -31,19 +31,19 @@ export default function Form({ listProducts, setListProducts}){
     event.preventDefault();
     if (
       formData.name.trim() === '' ||
-      formData.thumbnailURL.trim() === '' ||
-      formData.sourceURL.trim() === '' ||
+      formData.thumbnailurl.trim() === '' ||
+      formData.sourceurl.trim() === '' ||
       formData.category.trim() === ''
     ) {
       setFlashMessage('Please fill in all fields.'); 
       return; 
     }
 
-    const { name, thumbnailURL, sourceURL, category } = formData;
+    const { name, thumbnailurl, sourceurl, category } = formData;
     const newProduct ={
       name,
-      thumbnailURL,
-      sourceURL,
+      thumbnailurl,
+      sourceurl,
       category,
     };
   
@@ -54,11 +54,13 @@ export default function Form({ listProducts, setListProducts}){
     })
     .then((response) =>{
       console.log(response.data);
-      setFlashMessage('Product Added Successfully');
+      
+      window.location.reload();
+      setFlashMessage('Added Successfully');
       setFormData({
         name: '',
-        thumbnailURL: '',
-        sourceURL: '',
+        thumbnailurl: '',
+        sourceurl: '',
         category: '',
       });
       
@@ -92,8 +94,8 @@ export default function Form({ listProducts, setListProducts}){
               color="primary"
               placeholder="ThumbnailURL"
               sx={{ width: '100%' }}
-              name="thumbnailURL"
-              value={formData.thumbnailURL}
+              name="thumbnailurl"
+              value={formData.thumbnailurl}
               onChange={handleInputChange}
             />
             <TextField
@@ -102,8 +104,8 @@ export default function Form({ listProducts, setListProducts}){
               color="primary"
               placeholder="SourceURL"
               sx={{ width: '100%' }}
-              name="sourceURL"
-              value={formData.sourceURL}
+              name="sourceurl"
+              value={formData.sourceurl}
               onChange={handleInputChange}
             />
             <TextField
