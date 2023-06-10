@@ -49,10 +49,9 @@ Please note that all changes made to the database through the GUI are permanent 
 
 ### Demo Section #1: GUI
 
-Here's a video of the GUI in action:
+Here's a video of the React App:
 
-https://user-images.githubusercontent.com/88054514/235284249-9ff7f9f9-a7b5-46ef-9fc9-a6fc024ca544.mp4
-
+https://github.com/enFloo/themeRetrievalAPI/assets/88054514/02c3aa02-17b4-4efa-869a-fcb44f844098
 
 
 API Reference
