@@ -1,4 +1,4 @@
-API & GUI hosted in AWS Elastic Beanstalk
+React Application with API & GUI hosted in AWS Elastic Beanstalk
 =============
 
 This is an API with two HTTP endpoints that retrieves data & a GUI allowing users to CRUD data to a PostgreSQL database hosted in AWS RDS. Both were created in an AWS EC2 Amazon Linux 2 instance and successfully deployed to AWS Elastic Beanstalk. Python3.8
